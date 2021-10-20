@@ -18,6 +18,7 @@ model User {
   lastName  String
   address   Address?
   order     Order[]
+
 }
 
 model Address {
@@ -30,8 +31,27 @@ model Address {
 }
 
 model Order {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
+  id        Int                @id @default(autoincrement())
+  createdAt DateTime           @default(now())
+  user      User               @relation(fields: [userId], references: [id])
   userId    Int
+  products  OrdersOnProducts[]
+}
+
+model Product {
+  id     Int                @id @default(autoincrement())
+  name   String
+  price  Int
+  orders OrdersOnProducts[]
+}
+
+model OrdersOnProducts {
+  Product   Product  @relation(fields: [productId], references: [id])
+  productId Int
+  Order     Order    @relation(fields: [orderId], references: [id])
+  orderId   Int
+  createdAt DateTime @default(now())
+  createdBy String
+
+  @@id([productId, orderId])
 }

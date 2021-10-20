@@ -5,6 +5,9 @@ const cors = require("cors")
 const morgan = require("morgan")
 
 const app = express()
+/* IMPORT ROUTERS */
+
+const userRouter = require("./resources/users/router")
 
 /* SETUP MIDDLEWARE */
 
@@ -16,10 +19,11 @@ app.use(express.urlencoded({ extended: true }))
 app.use(morgan("dev"))
 
 /* SETUP ROUTES */
-
+app.use("/users", userRouter)
 app.get("*", (req, res) => {
   res.json({ ok: true })
 })
+
 
 /* START SERVER */
 
